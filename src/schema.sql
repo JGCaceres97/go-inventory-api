@@ -33,3 +33,7 @@ CREATE TABLE USER_ROLES (
   FOREIGN KEY (user_id) REFERENCES USERS(id),
   FOREIGN KEY (role_id) REFERENCES ROLES(id)
 );
+
+INSERT INTO ROLES (id, name) VALUES (1, 'admin');
+INSERT INTO ROLES (id, name) VALUES (2, 'seller');
+INSERT INTO ROLES (id, name) VALUES (3, 'customer');
