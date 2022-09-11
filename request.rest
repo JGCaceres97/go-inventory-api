@@ -9,3 +9,23 @@ Content-Type: application/json
   "name": "John Doe",
   "password": "123456789"
 }
+
+###
+POST {{HOST}}:{{PORT}}/users/login
+Content-Type: application/json
+
+{
+  "email": "john@doe.com",
+  "password": "123456789"
+}
+
+###
+POST {{HOST}}:{{PORT}}/products
+Cookie: Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsIm5hbWUiOiJKb2huIERvZSJ9.6pZXTiplMnzBhlU5ZpMTL3cXaaQdJwKU-DK4ntm-Jzw
+Content-Type: application/json
+
+{
+  "name": "Product 1",
+  "description": "Product 1 Description",
+  "price": 100
+}
