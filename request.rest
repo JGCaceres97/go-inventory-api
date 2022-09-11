@@ -1,0 +1,11 @@
+@HOST = http://localhost
+@PORT = 8080
+
+POST {{HOST}}:{{PORT}}/users/register
+Content-Type: application/json
+
+{
+  "email": "john@doe.com",
+  "name": "John Doe",
+  "password": "123456789"
+}
