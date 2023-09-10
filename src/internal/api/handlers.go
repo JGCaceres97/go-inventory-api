@@ -3,6 +3,7 @@ package api
 import (
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/jgcaceres97/go-inventory-api/src/encryption"
 	"github.com/jgcaceres97/go-inventory-api/src/internal/api/dtos"
@@ -70,6 +71,7 @@ func (a *API) LoginUser(c echo.Context) error {
 	}
 
 	cookie := &http.Cookie{
+		Expires:  time.Now().Add(10 * time.Minute).UTC(),
 		HttpOnly: true,
 		Name:     "Authorization",
 		Path:     "/",
@@ -80,6 +82,43 @@ func (a *API) LoginUser(c echo.Context) error {
 
 	c.SetCookie(cookie)
 	return c.JSON(http.StatusOK, map[string]bool{"success": true})
+}
+
+func (a *API) LogoutUser(c echo.Context) error {
+	cookie := &http.Cookie{
+		Expires:  time.Now().Add(-time.Minute),
+		HttpOnly: true,
+		Name:     "Authorization",
+		Path:     "/",
+		SameSite: http.SameSiteNoneMode,
+		Secure:   true,
+		Value:    "",
+	}
+
+	c.SetCookie(cookie)
+	return c.JSON(http.StatusOK, nil)
+}
+
+func (a *API) GetProducts(c echo.Context) error {
+	cookie, err := c.Cookie("Authorization")
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, response{Message: "unauthorized"})
+	}
+
+	_, err = encryption.ParseLoginJWT(cookie.Value)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusUnauthorized, response{Message: "unauthorized"})
+	}
+
+	ctx := c.Request().Context()
+	products, err := a.serv.GetProducts(ctx)
+	if err != nil {
+		log.Println(err)
+		return c.JSON(http.StatusInternalServerError, response{Message: "internal server error"})
+	}
+
+	return c.JSON(http.StatusOK, products)
 }
 
 func (a *API) AddProduct(c echo.Context) error {

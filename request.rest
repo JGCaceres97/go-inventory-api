@@ -1,5 +1,6 @@
 @HOST = http://localhost
 @PORT = 8080
+@Cookie = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsIm5hbWUiOiJKb2huIERvZSJ9.6pZXTiplMnzBhlU5ZpMTL3cXaaQdJwKU-DK4ntm-Jzw
 
 POST {{HOST}}:{{PORT}}/users/register
 Content-Type: application/json
@@ -20,8 +21,15 @@ Content-Type: application/json
 }
 
 ###
+POST {{HOST}}:{{PORT}}/users/logout
+
+###
+GET {{HOST}}:{{PORT}}/products
+Cookie: Authorization={{Cookie}}
+
+###
 POST {{HOST}}:{{PORT}}/products
-Cookie: Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZG9lLmNvbSIsIm5hbWUiOiJKb2huIERvZSJ9.6pZXTiplMnzBhlU5ZpMTL3cXaaQdJwKU-DK4ntm-Jzw
+Cookie: Authorization={{Cookie}}
 Content-Type: application/json
 
 {

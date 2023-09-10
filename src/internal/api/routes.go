@@ -8,6 +8,8 @@ func (a *API) RegisterRoutes(e *echo.Echo) {
 
 	users.POST("/register", a.RegisterUser)
 	users.POST("/login", a.LoginUser)
+	users.POST("/logout", a.LogoutUser)
 
+	products.GET("", a.GetProducts)
 	products.POST("", a.AddProduct)
 }
